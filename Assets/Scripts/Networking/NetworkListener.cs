@@ -1,86 +1,66 @@
 using System;
-using System.Collections;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using UnityEngine;
+using WebSocketSharp;
 
 public class NetworkListener : MonoBehaviour
 {
-    private Socket server;
-    private IPAddress localAddr;
-    private int port;
+    private WebSocket ws;
 
     private void Start()
     {
-        localAddr = IPAddress.Parse("127.0.0.1");
-        port = 7777;
-        IPEndPoint localEndPoint = new IPEndPoint(localAddr, port);
+        // WebSocket server address to connect to (Python server)
+        string url = "ws://127.0.0.1:7777";
 
-        server = new Socket(localAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        // Create the WebSocket client
+        ws = new WebSocket(url);
 
-        try
+        // Define WebSocket event handlers
+        ws.OnOpen += (sender, e) => 
         {
-            server.Bind(localEndPoint);
-            server.Listen(10);
+            Debug.Log("Connected to WebSocket server");
+            ws.Send("Hello from Unity!");
+        };
 
-            Debug.Log($"Server started on {localAddr}:{port}");
-
-            server.BeginAccept(new AsyncCallback(AcceptCallback), server);
-        }
-        catch (Exception e)
+        ws.OnMessage += (sender, e) => 
         {
-            Debug.Log(e.ToString());
-        }
+            Debug.Log("Received message: " + e.Data);
+            // Handle messages from the Python server here
+            // For example, you can parse the response or trigger actions based on it
+        };
+
+        ws.OnError += (sender, e) =>
+        {
+            Debug.LogError("WebSocket error: " + e.Message);
+        };
+
+        ws.OnClose += (sender, e) =>
+        {
+            Debug.Log("WebSocket connection closed");
+        };
+
+        // Connect to the WebSocket server
+        ws.Connect();
+
+        // Send a test message to the server after connection
+        SendMessage("get_line_number");
     }
 
-    private void AcceptCallback(IAsyncResult ar)
+    // Explicitly use 'new' keyword to hide inherited method
+    new private void SendMessage(string message)
     {
-        Socket listener = (Socket) ar.AsyncState;
-        Socket handler = listener.EndAccept(ar);
-
-        Debug.Log("Connected!");
-
-        StateObject state = new StateObject();
-        state.workSocket = handler;
-        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
-    }
-
-    private void ReadCallback(IAsyncResult ar)
-    {
-        StateObject state = (StateObject) ar.AsyncState;
-        Socket handler = state.workSocket;
-
-        int bytesRead = handler.EndReceive(ar);
-
-        if (bytesRead > 0)
+        if (ws != null && ws.ReadyState == WebSocketState.Open)
         {
-            state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+            ws.Send(message);
+            Debug.Log($"Sent message: {message}");
         }
-        else
-        {
-            if (state.sb.Length > 1)
-            {
-                string content = state.sb.ToString();
-                Debug.Log($"Read {content.Length} bytes from socket.\n Data : {content}");
-            }
-            handler.Close();
-        }
-    }
-
-    public class StateObject
-    {
-        public Socket workSocket = null;
-        public const int BufferSize = 1024;
-        public byte[] buffer = new byte[BufferSize];
-        public StringBuilder sb = new StringBuilder();
     }
 
     private void OnApplicationQuit()
     {
-        if (server != null){
-            server.Close();
+        if (ws != null)
+        {
+            ws.Close();
+            Debug.Log("WebSocket connection closed.");
         }
     }
 }
