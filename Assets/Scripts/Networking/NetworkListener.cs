@@ -40,9 +40,6 @@ public class NetworkListener : MonoBehaviour
 
         // Connect to the WebSocket server
         ws.Connect();
-
-        // Send a test message to the server after connection
-        SendMessage("get_line_number");
     }
 
     // Explicitly use 'new' keyword to hide inherited method
