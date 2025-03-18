@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507779487}
   - component: {fileID: 507779488}
+  - component: {fileID: 507779489}
   m_Layer: 0
   m_Name: Unity Client
   m_TagString: Untagged
@@ -164,6 +165,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3130bf848d441f34da3f05e980b42812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  codeboxManager: {fileID: 545559415}
+  dispatcher: {fileID: 507779489}
+--- !u!114 &507779489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507779486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac88da380ee0324448c2b34bebac0f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &545559413

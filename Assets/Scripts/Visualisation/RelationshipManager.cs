@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RelationshipManager : MonoBehaviour
 {
-    private List<RelationshipLine> relationshipLines = new List<RelationshipLine>();
+    private Dictionary<string, List<LineRenderer>> relationshipLines = new Dictionary<string, List<LineRenderer>>();
 
     public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
     {
@@ -19,7 +19,7 @@ public class RelationshipManager : MonoBehaviour
                 {
                     if (codeboxInstances.TryGetValue(relatedClass, out GameObject targetCodebox))
                     {
-                        CreateLineBetween(sourceCodebox, targetCodebox, Color.green);
+                        CreateLineBetween(sourceCodebox, targetCodebox, Color.green, "composition");
                     }
                 }
 
@@ -28,7 +28,7 @@ public class RelationshipManager : MonoBehaviour
                 {
                     if (codeboxInstances.TryGetValue(relatedClass, out GameObject targetCodebox))
                     {
-                        CreateLineBetween(sourceCodebox, targetCodebox, Color.blue);
+                        CreateLineBetween(sourceCodebox, targetCodebox, Color.blue, "usage");
                     }
                 }
 
@@ -37,17 +37,43 @@ public class RelationshipManager : MonoBehaviour
                 {
                     if (codeboxInstances.TryGetValue(baseClass, out GameObject targetCodebox))
                     {
-                        CreateLineBetween(sourceCodebox, targetCodebox, Color.red);
+                        CreateLineBetween(sourceCodebox, targetCodebox, Color.red, "inheritance");
                     }
                 }
             }
         }
     }
 
-    void CreateLineBetween(GameObject source, GameObject target, Color color)
+    public void DisplayRelationships(string className, Dictionary<string, GameObject> codeboxInstances)
+    {
+        if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
+        {
+            foreach (var line in lines)
+            {
+                RelationshipLine relationshipLine = line.GetComponent<RelationshipLine>();
+                if (relationshipLine != null && relationshipLine.source.activeSelf && relationshipLine.target.activeSelf)
+                {
+                    line.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void HideRelationships(string className)
+    {
+        if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
+        {
+            foreach (var line in lines)
+            {
+                line.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void CreateLineBetween(GameObject source, GameObject target, Color color, string relationshipType)
     {
         // Create a new GameObject to hold the LineRenderer
-        GameObject lineObject = new GameObject("RelationshipLine");
+        GameObject lineObject = new GameObject($"RelationshipLine_{source.name}_{target.name}_{relationshipType}");
         LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
 
         // Configure LineRenderer properties
@@ -62,16 +88,42 @@ public class RelationshipManager : MonoBehaviour
         lineRenderer.SetPosition(0, source.transform.position);
         lineRenderer.SetPosition(1, target.transform.position);
 
+        // Add RelationshipLine component
+        RelationshipLine relationshipLine = lineObject.AddComponent<RelationshipLine>();
+        relationshipLine.source = source;
+        relationshipLine.target = target;
+        relationshipLine.lineRenderer = lineRenderer;
+
         // Add to the list of relationship lines for updating
-        relationshipLines.Add(new RelationshipLine(source, target, lineRenderer));
+        if (!relationshipLines.ContainsKey(source.name))
+        {
+            relationshipLines[source.name] = new List<LineRenderer>();
+        }
+        relationshipLines[source.name].Add(lineRenderer);
+
+        // Also add to the target's list for updating
+        if (!relationshipLines.ContainsKey(target.name))
+        {
+            relationshipLines[target.name] = new List<LineRenderer>();
+        }
+        relationshipLines[target.name].Add(lineRenderer);
     }
 
     void Update()
     {
         // Update the positions of all relationship lines
-        foreach (var line in relationshipLines)
+        foreach (var lineList in relationshipLines.Values)
         {
-            line.UpdatePositions();
+            foreach (var line in lineList)
+            {
+                RelationshipLine relationshipLine = line.GetComponent<RelationshipLine>();
+                if (relationshipLine != null)
+                {
+                    relationshipLine.UpdatePositions();
+                    // Update visibility based on the active status of source and target
+                    line.gameObject.SetActive(relationshipLine.source.activeSelf && relationshipLine.target.activeSelf);
+                }
+            }
         }
     }
 }

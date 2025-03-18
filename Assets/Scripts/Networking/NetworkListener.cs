@@ -1,55 +1,63 @@
 using System;
 using UnityEngine;
 using WebSocketSharp;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 public class NetworkListener : MonoBehaviour
 {
     private WebSocket ws;
+    public CodeboxManager codeboxManager; // Assign in Unity Editor
+    public UnityMainThreadDispatcher dispatcher; // Assign in Unity Editor
 
     private void Start()
     {
-        // WebSocket server address to connect to (Python server)
         string url = "ws://127.0.0.1:7777";
-
-        // Create the WebSocket client
         ws = new WebSocket(url);
 
-        // Define WebSocket event handlers
-        ws.OnOpen += (sender, e) => 
-        {
-            Debug.Log("Connected to WebSocket server");
-            ws.Send("Hello from Unity!");
-        };
+        ws.OnOpen += (sender, e) => Debug.Log("Connected to WebSocket server");
+        ws.OnMessage += (sender, e) => HandleMessage(e.Data);
+        ws.OnError += (sender, e) => Debug.LogError("WebSocket error: " + e.Message);
+        ws.OnClose += (sender, e) => Debug.Log("WebSocket connection closed");
 
-        ws.OnMessage += (sender, e) => 
-        {
-            Debug.Log("Received message: " + e.Data);
-            // Handle messages from the Python server here
-            // For example, you can parse the response or trigger actions based on it
-        };
-
-        ws.OnError += (sender, e) =>
-        {
-            Debug.LogError("WebSocket error: " + e.Message);
-        };
-
-        ws.OnClose += (sender, e) =>
-        {
-            Debug.Log("WebSocket connection closed");
-        };
-
-        // Connect to the WebSocket server
         ws.Connect();
     }
 
-    // Explicitly use 'new' keyword to hide inherited method
-    new private void SendMessage(string message)
+    private void HandleMessage(string message)
     {
-        if (ws != null && ws.ReadyState == WebSocketState.Open)
+        try
         {
-            ws.Send(message);
-            Debug.Log($"Sent message: {message}");
+            var json = JObject.Parse(message);
+            string command = json["command"]?.ToString();
+            string className = json["className"]?.ToString();
+            string file = json["file"]?.ToString();
+
+            if (command == "display_code_box" && !string.IsNullOrEmpty(file))
+            {
+                dispatcher.Enqueue(() => DisplayCodeboxOnMainThread(className));
+            }
+            else if (command == "hide_code_box")
+            {
+                dispatcher.Enqueue(() => HideCodeboxOnMainThread(className));
+            }
+            else
+            {
+                Debug.Log("Unknown command: " + json.ToString());
+            }
         }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to handle message: " + ex.Message);
+        }
+    }
+
+    private void DisplayCodeboxOnMainThread(string className)
+    {
+        codeboxManager.DisplayCodebox(className);
+    }
+    private void HideCodeboxOnMainThread(string className)
+    {
+        codeboxManager.HideCodebox(className);
     }
 
     private void OnApplicationQuit()

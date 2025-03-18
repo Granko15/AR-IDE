@@ -1,17 +1,10 @@
 using UnityEngine;
 
-public class RelationshipLine
+public class RelationshipLine : MonoBehaviour
 {
-    private GameObject source;
-    private GameObject target;
-    private LineRenderer lineRenderer;
-
-    public RelationshipLine(GameObject source, GameObject target, LineRenderer lineRenderer)
-    {
-        this.source = source;
-        this.target = target;
-        this.lineRenderer = lineRenderer;
-    }
+    public GameObject source;
+    public GameObject target;
+    public LineRenderer lineRenderer;
 
     public void UpdatePositions()
     {
