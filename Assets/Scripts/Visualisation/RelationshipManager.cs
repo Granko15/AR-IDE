@@ -7,6 +7,9 @@ public class RelationshipManager : MonoBehaviour
 
     public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
     {
+        // Remove all existing relationships before creating new ones
+        ClearAllRelationships();
+
         foreach (var classEntry in jsonData.classes)
         {
             string className = classEntry.Key;
@@ -44,7 +47,7 @@ public class RelationshipManager : MonoBehaviour
         }
     }
 
-    public void DisplayRelationships(string className, Dictionary<string, GameObject> codeboxInstances)
+    public void DisplayRelationships(string className)
     {
         if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
         {
@@ -70,7 +73,7 @@ public class RelationshipManager : MonoBehaviour
         }
     }
 
-    void CreateLineBetween(GameObject source, GameObject target, Color color, string relationshipType)
+    private void CreateLineBetween(GameObject source, GameObject target, Color color, string relationshipType)
     {
         // Create a new GameObject to hold the LineRenderer
         GameObject lineObject = new GameObject($"RelationshipLine_{source.name}_{target.name}_{relationshipType}");
@@ -101,7 +104,6 @@ public class RelationshipManager : MonoBehaviour
         }
         relationshipLines[source.name].Add(lineRenderer);
 
-        // Also add to the target's list for updating
         if (!relationshipLines.ContainsKey(target.name))
         {
             relationshipLines[target.name] = new List<LineRenderer>();
@@ -109,7 +111,7 @@ public class RelationshipManager : MonoBehaviour
         relationshipLines[target.name].Add(lineRenderer);
     }
 
-    void Update()
+    private void Update()
     {
         // Update the positions of all relationship lines
         foreach (var lineList in relationshipLines.Values)
@@ -125,5 +127,27 @@ public class RelationshipManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RemoveRelationships(string className)
+    {
+        if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
+        {
+            foreach (var line in lines)
+            {
+                Destroy(line.gameObject); // Destroy the line object
+            }
+            relationshipLines.Remove(className);
+        }
+    }
+
+    public void ClearAllRelationships()
+    {
+        // Remove all existing relationships before adding new ones
+        foreach (var key in new List<string>(relationshipLines.Keys))
+        {
+            RemoveRelationships(key);
+        }
+        relationshipLines.Clear();
     }
 }

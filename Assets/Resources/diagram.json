@@ -1,7 +1,7 @@
 {
     "classes": {
         "Movie": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 10,
             "methods": [
@@ -19,7 +19,7 @@
             "uses": []
         },
         "CinemaHall": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 16,
             "methods": [
@@ -33,10 +33,10 @@
                 }
             ],
             "attributes": [
-                "booking",
-                "capacity",
                 "bookings",
-                "hall_number"
+                "capacity",
+                "hall_number",
+                "booking"
             ],
             "base_classes": [],
             "composition": [
@@ -47,7 +47,7 @@
             ]
         },
         "Booking": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 35,
             "methods": [
@@ -58,15 +58,15 @@
             ],
             "attributes": [
                 "customer",
-                "movie",
-                "hall"
+                "hall",
+                "movie"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Customer": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 42,
             "methods": [
@@ -84,7 +84,7 @@
             "uses": []
         },
         "Book": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\book.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\book.py",
             "package": "library",
             "line_number": 1,
             "methods": [
@@ -102,17 +102,17 @@
                 }
             ],
             "attributes": [
-                "isbn",
-                "borrowed",
                 "title",
-                "author"
+                "author",
+                "isbn",
+                "borrowed"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Library": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\library.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\library.py",
             "package": "library",
             "line_number": 4,
             "methods": [
@@ -144,12 +144,12 @@
             "base_classes": [],
             "composition": [],
             "uses": [
-                "Member",
-                "Book"
+                "Book",
+                "Member"
             ]
         },
         "Member": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\member.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\member.py",
             "package": "library",
             "line_number": 3,
             "methods": [
@@ -167,16 +167,16 @@
                 }
             ],
             "attributes": [
-                "borrowed_books",
+                "member_id",
                 "name",
-                "member_id"
+                "borrowed_books"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Animal": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 2,
             "methods": [
@@ -190,15 +190,15 @@
                 }
             ],
             "attributes": [
-                "species",
-                "name"
+                "name",
+                "species"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Dog": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 11,
             "methods": [
@@ -220,30 +220,93 @@
             "composition": [],
             "uses": []
         },
-        "Owner": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+        "Pitbull": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
             "package": "zoo",
-            "line_number": 20,
+            "line_number": 19,
             "methods": [
                 {
                     "name": "__init__",
-                    "line_number": 21
+                    "line_number": 20
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 23
+                }
+            ],
+            "attributes": [],
+            "base_classes": [
+                "Dog"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Chihuahua": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "package": "zoo",
+            "line_number": 26,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 27
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 30
+                }
+            ],
+            "attributes": [],
+            "base_classes": [
+                "Dog"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Pig": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "package": "zoo",
+            "line_number": 33,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 34
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 37
+                }
+            ],
+            "attributes": [],
+            "base_classes": [
+                "Animal"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Owner": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "package": "zoo",
+            "line_number": 42,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 43
                 },
                 {
                     "name": "walk_dog",
-                    "line_number": 25
+                    "line_number": 47
                 }
             ],
             "attributes": [
-                "dog",
-                "name"
+                "name",
+                "dog"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
-        "Cat": {
-            "file_path": "C:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\cat.py",
+        "Bird": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\bird.py",
             "package": "zoo.animals",
             "line_number": 3,
             "methods": [
@@ -252,17 +315,99 @@
                     "line_number": 4
                 },
                 {
-                    "name": "meow",
+                    "name": "fly",
                     "line_number": 8
                 },
                 {
-                    "name": "__str__",
+                    "name": "make_sound",
                     "line_number": 11
                 }
             ],
             "attributes": [
-                "age",
-                "name"
+                "wing_span"
+            ],
+            "base_classes": [
+                "Animal"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Cat": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\cat.py",
+            "package": "zoo.animals",
+            "line_number": 3,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 4
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 8
+                },
+                {
+                    "name": "scratch",
+                    "line_number": 11
+                },
+                {
+                    "name": "__str__",
+                    "line_number": 14
+                }
+            ],
+            "attributes": [
+                "breed"
+            ],
+            "base_classes": [
+                "Animal"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Weasel": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\weasel.py",
+            "package": "zoo.animals",
+            "line_number": 6,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 7
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 10
+                },
+                {
+                    "name": "move",
+                    "line_number": 13
+                }
+            ],
+            "attributes": [],
+            "base_classes": [
+                "Animal"
+            ],
+            "composition": [],
+            "uses": []
+        },
+        "Whale": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\whale.py",
+            "package": "zoo.animals",
+            "line_number": 3,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 4
+                },
+                {
+                    "name": "swim",
+                    "line_number": 8
+                },
+                {
+                    "name": "make_sound",
+                    "line_number": 11
+                }
+            ],
+            "attributes": [
+                "weight"
             ],
             "base_classes": [
                 "Animal"
@@ -295,10 +440,26 @@
         "__init__",
         "make_sound",
         "__init__",
+        "make_sound",
+        "__init__",
+        "make_sound",
+        "__init__",
+        "make_sound",
+        "__init__",
         "walk_dog",
         "__init__",
-        "meow",
-        "__str__"
+        "fly",
+        "make_sound",
+        "__init__",
+        "make_sound",
+        "scratch",
+        "__str__",
+        "__init__",
+        "make_sound",
+        "move",
+        "__init__",
+        "swim",
+        "make_sound"
     ],
     "imports": [
         "library.library",
@@ -313,6 +474,9 @@
         "book",
         "member",
         "library.book",
-        "zoo.animals.animal"
+        "zoo.animals",
+        "zoo.animals",
+        "zoo.animals",
+        "zoo.animals"
     ]
 }

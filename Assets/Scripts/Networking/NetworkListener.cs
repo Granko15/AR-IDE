@@ -9,6 +9,8 @@ public class NetworkListener : MonoBehaviour
     private WebSocket ws;
     public CodeboxManager codeboxManager; // Assign in Unity Editor
     public UnityMainThreadDispatcher dispatcher; // Assign in Unity Editor
+    public RelationshipManager relationshipManager; // Assign in Unity Editor
+    public JsonParser jsonParser; // Assign in Unity Editor
 
     private void Start()
     {
@@ -31,6 +33,7 @@ public class NetworkListener : MonoBehaviour
             string command = json["command"]?.ToString();
             string className = json["className"]?.ToString();
             string file = json["file"]?.ToString();
+            string content = json["content"]?.ToString();
 
             if (command == "display_code_box" && !string.IsNullOrEmpty(file))
             {
@@ -39,6 +42,10 @@ public class NetworkListener : MonoBehaviour
             else if (command == "hide_code_box")
             {
                 dispatcher.Enqueue(() => HideCodeboxOnMainThread(className));
+            }
+            else if (command == "send_diagram" && !string.IsNullOrEmpty(content))
+            {
+                HandleSendDiagram(content);
             }
             else
             {
@@ -51,10 +58,58 @@ public class NetworkListener : MonoBehaviour
         }
     }
 
+    private void HandleSendDiagram(string content)
+    {
+        try
+        {
+            // Save the JSON content to a file
+            SaveDiagramToFile(content);
+
+            // Reload the JSON data from the file
+            jsonParser.LoadJsonFromFile(); // Reload JSON from file
+
+            // Update codeboxes and relationships
+            dispatcher.Enqueue(() =>
+            {
+                codeboxManager.UpdateCodeboxes();
+            });
+            Debug.Log("Diagram updated.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to handle send_diagram: " + ex.Message);
+        }
+    }
+
+    private void SaveDiagramToFile(string content)
+    {
+        string path = Application.dataPath + "/Resources/diagram.json";
+        System.IO.File.WriteAllText(path, content);
+    }
+
+    public void SendJumpToClass(string file, int line)
+    {
+        if (ws != null && ws.IsAlive)
+        {
+            JObject json = new JObject();
+            json["command"] = "JumpToClass";
+            json["file"] = file;
+            json["line"] = line;
+
+            ws.Send(json.ToString());
+            Debug.Log("Sent JumpToClass command: " + json.ToString());
+        }
+        else
+        {
+            Debug.LogError("WebSocket connection is not open.");
+        }
+    }
+
     private void DisplayCodeboxOnMainThread(string className)
     {
         codeboxManager.DisplayCodebox(className);
     }
+
     private void HideCodeboxOnMainThread(string className)
     {
         codeboxManager.HideCodebox(className);

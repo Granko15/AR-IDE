@@ -5,6 +5,7 @@ public class RelationshipLine : MonoBehaviour
     public GameObject source;
     public GameObject target;
     public LineRenderer lineRenderer;
+    public string relationshipType;
 
     public void UpdatePositions()
     {

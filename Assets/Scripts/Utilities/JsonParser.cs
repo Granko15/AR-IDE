@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.IO;
 
 [System.Serializable]
 public class Method
@@ -33,38 +34,23 @@ public class JsonData
 
 public class JsonParser : MonoBehaviour
 {
-    public TextAsset jsonFile; // Drag and drop your JSON file here
-    private JsonData jsonData; // Parsed JSON data
+    private JsonData jsonData; // Holds parsed JSON data
+    private string jsonFilePath = "Assets/Resources/diagram.json"; // Path to JSON file
 
-    // Public getter for JsonData
     public JsonData JsonData => jsonData;
 
     void Awake()
     {
-        if (jsonFile != null)
-        {
-            ParseJson(jsonFile.text);
-        }
-        else
-        {
-            Debug.LogError("JSON file not assigned in the Inspector.");
-        }
+        // Automatically load the JSON from the file path
+        LoadJsonFromFile();
     }
 
     void ParseJson(string json)
     {
         try
         {
-            // Parse JSON into the JsonData structure
             jsonData = JsonConvert.DeserializeObject<JsonData>(json);
-
             Debug.Log("JSON parsed successfully!");
-            Debug.Log($"Classes Count: {jsonData.classes.Count}");
-            foreach (var classEntry in jsonData.classes)
-            {
-                Debug.Log($"Class Name: {classEntry.Key}");
-            }
-
         }
         catch (System.Exception ex)
         {
@@ -72,9 +58,29 @@ public class JsonParser : MonoBehaviour
         }
     }
 
+    public void LoadJsonFromFile()
+    {
+        try
+        {
+            if (File.Exists(jsonFilePath))
+            {
+                string jsonText = File.ReadAllText(jsonFilePath);
+                ParseJson(jsonText);
+                Debug.Log("Reloaded JSON from file.");
+            }
+            else
+            {
+                Debug.LogWarning("JSON file not found: " + jsonFilePath);
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Failed to load JSON file: " + ex.Message);
+        }
+    }
+
     public JsonData GetJsonData()
     {
         return jsonData;
     }
-
 }
