@@ -3,6 +3,7 @@ using UnityEngine;
 using WebSocketSharp;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using UnityEngine.XR;
 
 public class NetworkListener : MonoBehaviour
 {
@@ -47,6 +48,12 @@ public class NetworkListener : MonoBehaviour
             {
                 HandleSendDiagram(content);
             }
+            else if(command == "OpenAIResponse"){
+                HandleOpenAIResponse(json);
+            }
+            else if (command == "LoadAIHistory"){
+                HandleLoadAIHistory(json);
+            }
             else
             {
                 Debug.Log("Unknown command: " + json.ToString());
@@ -78,6 +85,22 @@ public class NetworkListener : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError("Failed to handle send_diagram: " + ex.Message);
+        }
+    }
+
+    private void HandleLoadAIHistory(JObject json)
+    {
+        if (json.TryGetValue("data", out JToken dataToken))
+        {
+            JObject wrapper = new JObject();
+            wrapper["classes"] = dataToken; // Assign the "data" array to the "classes" key
+            string path = Application.dataPath + "/Resources/AIChatHistory.json";
+            System.IO.File.WriteAllText(path, wrapper.ToString());
+            Debug.Log("AI history saved to: " + path);
+        }
+        else
+        {
+            Debug.LogError("Data field not found in JSON.");
         }
     }
 
@@ -122,5 +145,30 @@ public class NetworkListener : MonoBehaviour
             ws.Close();
             Debug.Log("WebSocket connection closed.");
         }
+    }
+    
+    public void SwitchToThisCodeboxInAIAssistant(string className, string filePath)
+    {
+        if (ws != null && ws.IsAlive)
+        {
+            JObject json = new JObject();
+            json["command"] = "SwitchToThisCodeboxInAIAssistant";
+            json["className"] = className;
+            json["filePath"] = filePath;
+
+            ws.Send(json.ToString());
+            Debug.Log("Sent OpenAIRequest command: " + json.ToString());
+        }
+        else
+        {
+            Debug.LogError("WebSocket connection is not open.");
+        }
+    }
+    private void HandleOpenAIResponse(JObject json)
+    {   
+        string prompt = json["prompt"]?.ToString();
+        string response = json["response"]?.ToString();
+        Debug.Log("For prompt: " + prompt);
+        Debug.Log("Response: " + response);
     }
 }

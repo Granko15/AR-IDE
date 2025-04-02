@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class CodeboxManager : MonoBehaviour
@@ -52,30 +53,6 @@ public class CodeboxManager : MonoBehaviour
         }
     }
 
-    /*void LateUpdate()
-    {
-        if (!instantiated)
-        {
-            instantiated = true; // Set the flag to true after instantiation
-            if (jsonParser != null)
-            {
-                JsonData projectData = jsonParser.GetJsonData();
-                if (projectData != null)
-                {
-                    InstantiateCodeboxes(projectData);
-                }
-                else
-                {
-                    Debug.LogError("JSON projectData is null.");
-                }
-            }
-            else
-            {
-                Debug.LogError("JsonParser is not assigned.");
-            }
-        }
-    }*/
-
     public void InstantiateCodeboxes(JsonData projectData)
     {
         foreach (var classEntry in projectData.classes)
@@ -106,6 +83,57 @@ public class CodeboxManager : MonoBehaviour
             }
         }
         relationshipManager.SetupRelationships(projectData, codeboxInstances);
+        LoadAndAssignChatHistory(); // Load and assign chat history after codeboxes are instantiated
+
+    }
+
+    private void LoadAndAssignChatHistory()
+    {
+        string filePath = Application.dataPath + "/Resources/AIChatHistory.json";
+        if (File.Exists(filePath))
+        {
+            string jsonString = File.ReadAllText(filePath);
+            ChatHistoryWrapper chatHistoryWrapper = JsonUtility.FromJson<ChatHistoryWrapper>(jsonString);
+
+            if (chatHistoryWrapper == null || chatHistoryWrapper.classes == null)
+            {
+                Debug.LogError("Failed to parse AIChatHistory.json.");
+                return;
+            }
+
+            foreach (var classData in chatHistoryWrapper.classes)
+            {
+                foreach (var codebox in codeboxInstances.Values)
+                {
+                    CodeBoxController controller = codebox.GetComponent<CodeBoxController>();
+                    if (controller != null && controller.FilePath == classData.filePath)
+                    {
+                        CodeboxPopulator populator = codebox.GetComponent<CodeboxPopulator>();
+                        if (populator != null && populator.AIAssistantText != null)
+                        {
+                            populator.AIAssistantText.text = FormatChatHistoryReversed(classData.chatHistory);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("AIChatHistory.json not found at path: " + filePath);
+        }
+    }
+
+    private string FormatChatHistoryReversed(ChatMessage[] chatHistory)
+    {
+        if (chatHistory == null || chatHistory.Length == 0)
+            return "No chat history available.";
+
+        string formattedHistory = "";
+        for (int i = chatHistory.Length - 1; i >= 0; i--)
+        {
+            formattedHistory += $"{chatHistory[i].role}: {chatHistory[i].text}\n";
+        }
+        return formattedHistory;
     }
 
     public void DisplayCodebox(string className)
@@ -168,6 +196,18 @@ public class CodeboxManager : MonoBehaviour
         }
     }
 
+    public void SendSwitchCommandInAIAssistant(string className, string filePath)
+    {
+        if (networkListener != null)
+        {
+            networkListener.SwitchToThisCodeboxInAIAssistant(className, filePath);
+        }
+        else
+        {
+            Debug.LogError("NetworkListener is not assigned.");
+        }
+    }
+
     public Dictionary<string, GameObject> GetCodeboxInstances()
     {
         return codeboxInstances;
@@ -183,7 +223,7 @@ public class CodeboxManager : MonoBehaviour
         return highlightedCodebox;
     }
 
-    public void PrintHighlightedCodebox()
+    public void JumpToHighlightedCodeBox()
     {
         if (highlightedCodebox != null)
         {
@@ -199,4 +239,48 @@ public class CodeboxManager : MonoBehaviour
             Debug.Log("No codebox is currently highlighted.");
         }
     }
+
+    private GameObject GetCodeboxByName(string className)
+    {
+        if (codeboxInstances.TryGetValue(className, out GameObject codebox))
+        {
+            return codebox;
+        }
+        else
+        {
+            Debug.LogError($"Codebox for class {className} not found.");
+            return null;
+        }
+    }
+
+    public void JumpToCurrentCodeBox(String className)
+    {
+        GameObject codebox = GetCodeboxByName(className);
+        CodeBoxController codeBoxController = codebox.GetComponent<CodeBoxController>();
+        String filePath = codeBoxController.FilePath;
+        String lineNumber = codeBoxController.LineNumber;
+        
+        networkListener.SendJumpToClass(filePath, int.Parse(lineNumber));
+
+    }
+}
+[System.Serializable]
+public class ChatHistoryWrapper
+{
+    public ChatHistoryData[] classes;
+}
+
+[System.Serializable]
+public class ChatHistoryData
+{
+    public string className;
+    public string filePath;
+    public ChatMessage[] chatHistory;
+}
+
+[System.Serializable]
+public class ChatMessage
+{
+    public string role;
+    public string text;
 }

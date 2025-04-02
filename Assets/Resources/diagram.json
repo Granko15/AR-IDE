@@ -11,8 +11,8 @@
                 }
             ],
             "attributes": [
-                "title",
-                "duration"
+                "duration",
+                "title"
             ],
             "base_classes": [],
             "composition": [],
@@ -35,8 +35,8 @@
             "attributes": [
                 "bookings",
                 "capacity",
-                "hall_number",
-                "booking"
+                "booking",
+                "hall_number"
             ],
             "base_classes": [],
             "composition": [
@@ -57,8 +57,8 @@
                 }
             ],
             "attributes": [
-                "customer",
                 "hall",
+                "customer",
                 "movie"
             ],
             "base_classes": [],
@@ -102,10 +102,10 @@
                 }
             ],
             "attributes": [
-                "title",
                 "author",
-                "isbn",
-                "borrowed"
+                "title",
+                "borrowed",
+                "isbn"
             ],
             "base_classes": [],
             "composition": [],
@@ -138,14 +138,14 @@
                 }
             ],
             "attributes": [
-                "members",
-                "books"
+                "books",
+                "members"
             ],
             "base_classes": [],
             "composition": [],
             "uses": [
-                "Book",
-                "Member"
+                "Member",
+                "Book"
             ]
         },
         "Member": {
@@ -168,8 +168,8 @@
             ],
             "attributes": [
                 "member_id",
-                "name",
-                "borrowed_books"
+                "borrowed_books",
+                "name"
             ],
             "base_classes": [],
             "composition": [],
@@ -190,8 +190,8 @@
                 }
             ],
             "attributes": [
-                "name",
-                "species"
+                "species",
+                "name"
             ],
             "base_classes": [],
             "composition": [],
@@ -298,8 +298,8 @@
                 }
             ],
             "attributes": [
-                "name",
-                "dog"
+                "dog",
+                "name"
             ],
             "base_classes": [],
             "composition": [],
@@ -342,16 +342,60 @@
                     "line_number": 4
                 },
                 {
-                    "name": "make_sound",
+                    "name": "fart",
                     "line_number": 8
                 },
                 {
-                    "name": "scratch",
+                    "name": "make_sound",
                     "line_number": 11
                 },
                 {
-                    "name": "__str__",
+                    "name": "scratch",
                     "line_number": 14
+                },
+                {
+                    "name": "purr",
+                    "line_number": 17
+                },
+                {
+                    "name": "sleep",
+                    "line_number": 20
+                },
+                {
+                    "name": "eat",
+                    "line_number": 23
+                },
+                {
+                    "name": "play",
+                    "line_number": 26
+                },
+                {
+                    "name": "chase_mouse",
+                    "line_number": 29
+                },
+                {
+                    "name": "groom",
+                    "line_number": 32
+                },
+                {
+                    "name": "jump",
+                    "line_number": 35
+                },
+                {
+                    "name": "hiss",
+                    "line_number": 38
+                },
+                {
+                    "name": "run",
+                    "line_number": 41
+                },
+                {
+                    "name": "hunt",
+                    "line_number": 44
+                },
+                {
+                    "name": "__str__",
+                    "line_number": 47
                 }
             ],
             "attributes": [
@@ -414,6 +458,33 @@
             ],
             "composition": [],
             "uses": []
+        },
+        "Xeno": {
+            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\xeno.py",
+            "package": "zoo.animals",
+            "line_number": 4,
+            "methods": [
+                {
+                    "name": "__init__",
+                    "line_number": 5
+                },
+                {
+                    "name": "speak",
+                    "line_number": 8
+                },
+                {
+                    "name": "__str__",
+                    "line_number": 11
+                }
+            ],
+            "attributes": [
+                "name"
+            ],
+            "base_classes": [
+                "Animal"
+            ],
+            "composition": [],
+            "uses": []
         }
     },
     "functions": [
@@ -451,15 +522,29 @@
         "fly",
         "make_sound",
         "__init__",
+        "fart",
         "make_sound",
         "scratch",
+        "purr",
+        "sleep",
+        "eat",
+        "play",
+        "chase_mouse",
+        "groom",
+        "jump",
+        "hiss",
+        "run",
+        "hunt",
         "__str__",
         "__init__",
         "make_sound",
         "move",
         "__init__",
         "swim",
-        "make_sound"
+        "make_sound",
+        "__init__",
+        "speak",
+        "__str__"
     ],
     "imports": [
         "library.library",
@@ -474,6 +559,7 @@
         "book",
         "member",
         "library.book",
+        "zoo.animals",
         "zoo.animals",
         "zoo.animals",
         "zoo.animals",

@@ -1,0 +1,48 @@
+{
+  "classes": [
+    {
+      "className": "Cat",
+      "filePath": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\cat.py",
+      "chatHistory": [
+        {
+          "role": "assistant",
+          "text": "It seems like you're looking for specific logs or information, but I don't have the ability to load external files or histories. However, I can help you with questions or information about cats! What do you need?"
+        },
+        {
+          "role": "user",
+          "text": "i want you to load the cat history log"
+        },
+        {
+          "role": "assistant",
+          "text": "Hello, friend! How can I assist you today?"
+        },
+        {
+          "role": "user",
+          "text": "hi"
+        }
+      ]
+    },
+    {
+      "className": "Weasel",
+      "filePath": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\weasel.py",
+      "chatHistory": [
+        {
+          "role": "assistant",
+          "text": "Priateľ, môžeš mi prosím povedať, čo presne potrebuješ? Chceš odstrániť alebo upraviť niečo konkrétne? Daj mi viac detailov a budem sa snažiť čo najlepšie pomôcť."
+        },
+        {
+          "role": "user",
+          "text": "a teraz co??"
+        },
+        {
+          "role": "assistant",
+          "text": "Ahoj, priateľ! Mohol by si prosím objasniť, o aké ID a inz thread ide? Rád ti pomôžem, len potrebujem viac informácií."
+        },
+        {
+          "role": "user",
+          "text": "halo halo tu sa chcem len uidstit ye id o inz thread"
+        }
+      ]
+    }
+  ]
+}

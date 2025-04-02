@@ -1,11 +1,19 @@
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CodeBoxController : MonoBehaviour
 {
-    [SerializeField] private GameObject polyCodeObject;
+    [SerializeField] private GameObject AttributeScrollButtons;
+    [SerializeField] private GameObject ChildrenScrollButtons;
+    [SerializeField] private GameObject ParentScrollButtons;
+    [SerializeField] private GameObject MetadataScrollButtons;
+    [SerializeField] private GameObject UsageScrollButtons;
+    [SerializeField] private GameObject RelationshipScrollButtons;
+    [SerializeField] private GameObject AIScrollButtons;
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material highlightedMaterial;
+    [SerializeField] private GameObject CodeBoxBody; // Prefab for the codebox populator
     private Renderer objectRenderer;
     private static CodeBoxController currentSelectedController;
     private bool isHighlighted = false;
@@ -16,10 +24,10 @@ public class CodeBoxController : MonoBehaviour
 
     void Start()
     {
-        objectRenderer = polyCodeObject.GetComponent<Renderer>();
+        objectRenderer = CodeBoxBody.GetComponent<Renderer>();
         if (objectRenderer == null)
         {
-            Debug.LogError("Renderer is null on " + polyCodeObject.name);
+            Debug.LogError("Renderer is null on " + CodeBoxBody.name);
         }
     }
 
@@ -48,19 +56,25 @@ public class CodeBoxController : MonoBehaviour
 
     public void RotateObject()
     {
-        polyCodeObject.transform.Rotate(0, 51, 0);
+        CodeBoxBody.transform.Rotate(0, 51, 0);
+        AttributeScrollButtons.transform.Rotate(0, 51, 0);
+        ChildrenScrollButtons.transform.Rotate(0, 51, 0);
+        ParentScrollButtons.transform.Rotate(0, 51, 0);
+        MetadataScrollButtons.transform.Rotate(0, 51, 0);
+        UsageScrollButtons.transform.Rotate(0, 51, 0);
+        RelationshipScrollButtons.transform.Rotate(0, 51, 0);
+        AIScrollButtons.transform.Rotate(0, 51, 0);
     }
 
     private void HighlightCodebox(bool highlight)
     {
-        if (objectRenderer != null)
+        foreach (Transform child in CodeBoxBody.transform)
         {
-            Debug.Log("Highlighting codebox: " + highlight);
-            objectRenderer.material = highlight ? highlightedMaterial : normalMaterial;
-        }
-        else
-        {
-            Debug.LogError("objectRenderer is null in HighlightCodebox!");
+            Renderer childRenderer = child.GetComponent<Renderer>();
+            if (childRenderer != null)
+            {
+                childRenderer.material = highlight ? highlightedMaterial : normalMaterial;
+            }
         }
     }
 
