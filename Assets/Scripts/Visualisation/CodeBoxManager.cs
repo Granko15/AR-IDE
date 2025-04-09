@@ -20,6 +20,11 @@ public class CodeboxManager : MonoBehaviour
     private Dictionary<string, GameObject> codeboxInstances = new Dictionary<string, GameObject>();
     private GameObject highlightedCodebox = null; // Store the highlighted codebox instance
     private bool instantiated = false; // Flag to check if the codebox is instantiated
+
+    // Pridaj verejnú udalosť, ktorá sa zavolá po vytvorení Codeboxov
+    public delegate void CodeboxesCreatedDelegate(Dictionary<string, GameObject> codeboxes);
+    public static event CodeboxesCreatedDelegate OnCodeboxesCreated;
+
     void Awake()
     {
         if (Instance == null)
@@ -40,6 +45,8 @@ public class CodeboxManager : MonoBehaviour
             if (projectData != null)
             {
                 InstantiateCodeboxes(projectData);
+                // Po vytvorení Codeboxov zavolaj udalosť
+                OnCodeboxesCreated?.Invoke(codeboxInstances);
             }
             else
             {
@@ -49,7 +56,6 @@ public class CodeboxManager : MonoBehaviour
         else
         {
             Debug.LogError("JsonParser is not assigned.");
-        
         }
     }
 
@@ -84,9 +90,8 @@ public class CodeboxManager : MonoBehaviour
         }
         relationshipManager.SetupRelationships(projectData, codeboxInstances);
         LoadAndAssignChatHistory(); // Load and assign chat history after codeboxes are instantiated
-
     }
-
+    
     private void LoadAndAssignChatHistory()
     {
         string filePath = Application.dataPath + "/Resources/AIChatHistory.json";

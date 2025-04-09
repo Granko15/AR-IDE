@@ -11,8 +11,8 @@
                 }
             ],
             "attributes": [
-                "duration",
-                "title"
+                "title",
+                "duration"
             ],
             "base_classes": [],
             "composition": [],
@@ -33,9 +33,9 @@
                 }
             ],
             "attributes": [
+                "booking",
                 "bookings",
                 "capacity",
-                "booking",
                 "hall_number"
             ],
             "base_classes": [],
@@ -76,8 +76,8 @@
                 }
             ],
             "attributes": [
-                "email",
-                "name"
+                "name",
+                "email"
             ],
             "base_classes": [],
             "composition": [],
@@ -102,10 +102,10 @@
                 }
             ],
             "attributes": [
-                "author",
-                "title",
                 "borrowed",
-                "isbn"
+                "author",
+                "isbn",
+                "title"
             ],
             "base_classes": [],
             "composition": [],
@@ -144,8 +144,8 @@
             "base_classes": [],
             "composition": [],
             "uses": [
-                "Member",
-                "Book"
+                "Book",
+                "Member"
             ]
         },
         "Member": {
@@ -167,9 +167,9 @@
                 }
             ],
             "attributes": [
+                "name",
                 "member_id",
-                "borrowed_books",
-                "name"
+                "borrowed_books"
             ],
             "base_classes": [],
             "composition": [],
@@ -298,8 +298,8 @@
                 }
             ],
             "attributes": [
-                "dog",
-                "name"
+                "name",
+                "dog"
             ],
             "base_classes": [],
             "composition": [],

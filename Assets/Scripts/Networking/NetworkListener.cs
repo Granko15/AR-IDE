@@ -65,6 +65,15 @@ public class NetworkListener : MonoBehaviour
         }
     }
 
+    public void ReconnectWebSocket()
+    {
+        if (ws != null && !ws.IsAlive)
+        {
+            ws.Connect();
+            Debug.Log("Reconnected to WebSocket server");
+        }
+    }
+
     private void HandleSendDiagram(string content)
     {
         try
