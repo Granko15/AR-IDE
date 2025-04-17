@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jur0b\\Workspace\\BPDP\\AR-IDE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0C9E4AF2-A692-5CFC-EF52-A68D62A29AF2}|Assembly-CSharp.csproj|c:\\users\\jur0b\\workspace\\bpdp\\ar-ide\\assets\\fastmesh\\scripts\\sceneviewtext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C9E4AF2-A692-5CFC-EF52-A68D62A29AF2}|Assembly-CSharp.csproj|solutionrelative:assets\\fastmesh\\scripts\\sceneviewtext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SceneViewText.cs",
+              "DocumentMoniker": "C:\\Users\\jur0b\\Workspace\\BPDP\\AR-IDE\\Assets\\FastMesh\\Scripts\\SceneViewText.cs",
+              "RelativeDocumentMoniker": "Assets\\FastMesh\\Scripts\\SceneViewText.cs",
+              "ToolTip": "C:\\Users\\jur0b\\Workspace\\BPDP\\AR-IDE\\Assets\\FastMesh\\Scripts\\SceneViewText.cs",
+              "RelativeToolTip": "Assets\\FastMesh\\Scripts\\SceneViewText.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-16T15:55:35.459Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

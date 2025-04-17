@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "com.antilatency.sdk": "https://github.com/AntilatencySDK/Release_4.3.0.git#subset-401a7cffb5021e64c44db53ab2659c85ef5ee189",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.microsoft.mixedreality.openxr": "file:MixedReality/com.microsoft.mixedreality.openxr-1.11.2.tgz",
     "com.microsoft.mrtk.graphicstools.unity": "file:MixedReality/com.microsoft.mrtk.graphicstools.unity-0.5.12.tgz",
     "com.microsoft.spatialaudio.spatializer.unity": "file:MixedReality/com.microsoft.spatialaudio.spatializer.unity-2.0.55.tgz",
+    "com.ultraleap.tracking": "7.2.0",
     "com.unity.collab-proxy": "2.6.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
@@ -11,7 +13,7 @@
     "com.unity.timeline": "1.7.6",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.4",
-    "com.unity.xr.openxr": "1.12.1",
+    "com.unity.xr.openxr": "1.13.2",
     "org.mixedrealitytoolkit.audio": "file:MixedReality/org.mixedrealitytoolkit.audio-3.0.4.tgz",
     "org.mixedrealitytoolkit.core": "file:MixedReality/org.mixedrealitytoolkit.core-4.0.0-pre.1.tgz",
     "org.mixedrealitytoolkit.diagnostics": "file:MixedReality/org.mixedrealitytoolkit.diagnostics-3.0.2.tgz",
@@ -54,5 +56,14 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Ultraleap",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.ultraleap"
+      ]
+    }
+  ]
 }
