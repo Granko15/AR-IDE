@@ -15,7 +15,7 @@ public class CodeboxManager : MonoBehaviour
     private float currentYPos = 2.5f;
     private float currentZPos = 50f;
 
-    public float spawnDistance = 50f;
+    public float spawnDistance = 0.5f;
 
     private Dictionary<string, GameObject> codeboxInstances = new Dictionary<string, GameObject>();
     private GameObject highlightedCodebox = null; // Store the highlighted codebox instance

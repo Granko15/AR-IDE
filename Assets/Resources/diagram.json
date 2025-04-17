@@ -1,7 +1,7 @@
 {
     "classes": {
         "Movie": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\MatusGranec\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 10,
             "methods": [
@@ -19,7 +19,7 @@
             "uses": []
         },
         "CinemaHall": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\MatusGranec\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 16,
             "methods": [
@@ -33,10 +33,10 @@
                 }
             ],
             "attributes": [
-                "booking",
                 "bookings",
                 "capacity",
-                "hall_number"
+                "hall_number",
+                "booking"
             ],
             "base_classes": [],
             "composition": [
@@ -47,7 +47,7 @@
             ]
         },
         "Booking": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\MatusGranec\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 35,
             "methods": [
@@ -57,16 +57,16 @@
                 }
             ],
             "attributes": [
-                "hall",
+                "movie",
                 "customer",
-                "movie"
+                "hall"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Customer": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\cinema\\cinema.py",
+            "file_path": "c:\\MatusGranec\\test_project\\cinema\\cinema.py",
             "package": "cinema",
             "line_number": 42,
             "methods": [
@@ -84,7 +84,7 @@
             "uses": []
         },
         "Book": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\book.py",
+            "file_path": "c:\\MatusGranec\\test_project\\library\\book.py",
             "package": "library",
             "line_number": 1,
             "methods": [
@@ -102,17 +102,17 @@
                 }
             ],
             "attributes": [
-                "borrowed",
                 "author",
                 "isbn",
-                "title"
+                "title",
+                "borrowed"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Library": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\library.py",
+            "file_path": "c:\\MatusGranec\\test_project\\library\\library.py",
             "package": "library",
             "line_number": 4,
             "methods": [
@@ -138,8 +138,8 @@
                 }
             ],
             "attributes": [
-                "books",
-                "members"
+                "members",
+                "books"
             ],
             "base_classes": [],
             "composition": [],
@@ -149,7 +149,7 @@
             ]
         },
         "Member": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\library\\member.py",
+            "file_path": "c:\\MatusGranec\\test_project\\library\\member.py",
             "package": "library",
             "line_number": 3,
             "methods": [
@@ -176,7 +176,7 @@
             "uses": []
         },
         "Animal": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 2,
             "methods": [
@@ -190,15 +190,15 @@
                 }
             ],
             "attributes": [
-                "species",
-                "name"
+                "name",
+                "species"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
         "Dog": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 11,
             "methods": [
@@ -221,7 +221,7 @@
             "uses": []
         },
         "Pitbull": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 19,
             "methods": [
@@ -242,7 +242,7 @@
             "uses": []
         },
         "Chihuahua": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 26,
             "methods": [
@@ -263,7 +263,7 @@
             "uses": []
         },
         "Pig": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 33,
             "methods": [
@@ -284,7 +284,7 @@
             "uses": []
         },
         "Owner": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals.py",
             "package": "zoo",
             "line_number": 42,
             "methods": [
@@ -306,7 +306,7 @@
             "uses": []
         },
         "Bird": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\bird.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals\\bird.py",
             "package": "zoo.animals",
             "line_number": 3,
             "methods": [
@@ -333,7 +333,7 @@
             "uses": []
         },
         "Cat": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\cat.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals\\cat.py",
             "package": "zoo.animals",
             "line_number": 3,
             "methods": [
@@ -408,7 +408,7 @@
             "uses": []
         },
         "Weasel": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\weasel.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals\\weasel.py",
             "package": "zoo.animals",
             "line_number": 6,
             "methods": [
@@ -433,7 +433,7 @@
             "uses": []
         },
         "Whale": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\whale.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals\\whale.py",
             "package": "zoo.animals",
             "line_number": 3,
             "methods": [
@@ -460,7 +460,7 @@
             "uses": []
         },
         "Xeno": {
-            "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\xeno.py",
+            "file_path": "c:\\MatusGranec\\test_project\\zoo\\animals\\xeno.py",
             "package": "zoo.animals",
             "line_number": 4,
             "methods": [
