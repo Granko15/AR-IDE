@@ -29,9 +29,16 @@ public class HandMenuGenerator : MonoBehaviour
         Debug.Log("HandMenuGenerator sa spustil!");
     }
 
-    private void HandleCodeboxesCreated(Dictionary<string, GameObject> codeboxes)
+    public void HandleCodeboxesCreated(Dictionary<string, GameObject> codeboxes)
     {
         Debug.Log($"HandMenuGenerator zachytil udalosť o vytvorení Codeboxov. Počet: {codeboxes.Count}");
+        CreateMenuItems(codeboxes);
+    }
+
+    // Nová metóda na obnovenie menu
+    public void RefreshHandMenu(Dictionary<string, GameObject> codeboxes)
+    {
+        Debug.Log("Obnovujem hand menu...");
         CreateMenuItems(codeboxes);
     }
 

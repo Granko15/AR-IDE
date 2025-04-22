@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEditor;
 
 public class CodeboxManager : MonoBehaviour
 {
@@ -19,11 +20,24 @@ public class CodeboxManager : MonoBehaviour
 
     private Dictionary<string, GameObject> codeboxInstances = new Dictionary<string, GameObject>();
     private GameObject highlightedCodebox = null; // Store the highlighted codebox instance
-    private bool instantiated = false; // Flag to check if the codebox is instantiated
 
     // Pridaj verejnú udalosť, ktorá sa zavolá po vytvorení Codeboxov
     public delegate void CodeboxesCreatedDelegate(Dictionary<string, GameObject> codeboxes);
     public static event CodeboxesCreatedDelegate OnCodeboxesCreated;
+    public HandMenuGenerator handMenuGenerator;
+    private string aiHistoryFileName = "AIChatHistory.json";
+
+    private string AIHistoryFilePath
+    {
+        get
+        {
+        #if UNITY_EDITOR
+            return Application.dataPath + "/Resources/" + aiHistoryFileName;
+        #else
+            return Path.Combine(Application.persistentDataPath, aiHistoryFileName);
+        #endif
+        }
+    }
 
     void Awake()
     {
@@ -94,37 +108,44 @@ public class CodeboxManager : MonoBehaviour
     
     private void LoadAndAssignChatHistory()
     {
-        string filePath = Application.dataPath + "/Resources/AIChatHistory.json";
-        if (File.Exists(filePath))
+        if (File.Exists(AIHistoryFilePath))
         {
-            string jsonString = File.ReadAllText(filePath);
-            ChatHistoryWrapper chatHistoryWrapper = JsonUtility.FromJson<ChatHistoryWrapper>(jsonString);
-
-            if (chatHistoryWrapper == null || chatHistoryWrapper.classes == null)
+            try
             {
-                Debug.LogError("Failed to parse AIChatHistory.json.");
-                return;
-            }
+                string jsonString = File.ReadAllText(AIHistoryFilePath);
+                ChatHistoryWrapper chatHistoryWrapper = JsonUtility.FromJson<ChatHistoryWrapper>(jsonString);
 
-            foreach (var classData in chatHistoryWrapper.classes)
-            {
-                foreach (var codebox in codeboxInstances.Values)
+                if (chatHistoryWrapper == null || chatHistoryWrapper.classes == null)
                 {
-                    CodeBoxController controller = codebox.GetComponent<CodeBoxController>();
-                    if (controller != null && controller.FilePath == classData.filePath)
+                    Debug.LogError($"Failed to parse {aiHistoryFileName} from {(Application.isEditor ? "Editor" : "persistent data path")}.");
+                    return;
+                }
+
+                foreach (var classData in chatHistoryWrapper.classes)
+                {
+                    foreach (var codebox in codeboxInstances.Values)
                     {
-                        CodeboxPopulator populator = codebox.GetComponent<CodeboxPopulator>();
-                        if (populator != null && populator.AIAssistantText != null)
+                        CodeBoxController controller = codebox.GetComponent<CodeBoxController>();
+                        if (controller != null && controller.FilePath == classData.filePath)
                         {
-                            populator.AIAssistantText.text = FormatChatHistoryReversed(classData.chatHistory);
+                            CodeboxPopulator populator = codebox.GetComponent<CodeboxPopulator>();
+                            if (populator != null && populator.AIAssistantText != null)
+                            {
+                                populator.AIAssistantText.text = FormatChatHistoryReversed(classData.chatHistory);
+                            }
                         }
                     }
                 }
+                Debug.Log($"AIChatHistory loaded from: {AIHistoryFilePath}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error loading or parsing {aiHistoryFileName} from {(Application.isEditor ? "Editor" : "persistent data path")}: " + ex.Message);
             }
         }
         else
         {
-            Debug.LogError("AIChatHistory.json not found at path: " + filePath);
+            Debug.LogWarning($"{aiHistoryFileName} not found at: {AIHistoryFilePath}. It might need to be created first.");
         }
     }
 
@@ -198,6 +219,11 @@ public class CodeboxManager : MonoBehaviour
         if (projectData != null)
         {
             InstantiateCodeboxes(projectData);
+                        // After re-instantiating, refresh the hand menu
+            if (handMenuGenerator != null)
+            {
+                handMenuGenerator.RefreshHandMenu(codeboxInstances);
+            }
         }
     }
 

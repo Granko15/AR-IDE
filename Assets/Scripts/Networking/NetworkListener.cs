@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 using WebSocketSharp;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
-using UnityEngine.XR;
+using System.IO;
+using UnityEditor;
 
 public class NetworkListener : MonoBehaviour
 {
@@ -12,6 +12,34 @@ public class NetworkListener : MonoBehaviour
     public UnityMainThreadDispatcher dispatcher; // Assign in Unity Editor
     public RelationshipManager relationshipManager; // Assign in Unity Editor
     public JsonParser jsonParser; // Assign in Unity Editor
+    public HandMenuGenerator handMenuGenerator; // Assign in Unity Editor
+
+    private string diagramFileName = "diagram.json";
+    private string aiHistoryFileName = "AIChatHistory.json";
+
+    private string DiagramFilePath
+    {
+        get
+        {
+            #if UNITY_EDITOR
+                return Application.dataPath + "/Resources/" + diagramFileName;
+            #else
+                return Path.Combine(Application.persistentDataPath, diagramFileName);
+            #endif
+        }
+    }
+
+    private string AIHistoryFilePath
+    {
+        get
+        {
+            #if UNITY_EDITOR
+                return Application.dataPath + "/Resources/" + aiHistoryFileName;
+            #else
+                return Path.Combine(Application.persistentDataPath, aiHistoryFileName);
+            #endif
+        }
+    }
 
     private void Start()
     {
@@ -87,7 +115,7 @@ public class NetworkListener : MonoBehaviour
             // Update codeboxes and relationships
             dispatcher.Enqueue(() =>
             {
-                codeboxManager.UpdateCodeboxes();
+                codeboxManager.UpdateCodeboxes(); 
             });
             Debug.Log("Diagram updated.");
         }
@@ -103,9 +131,16 @@ public class NetworkListener : MonoBehaviour
         {
             JObject wrapper = new JObject();
             wrapper["classes"] = dataToken; // Assign the "data" array to the "classes" key
-            string path = Application.dataPath + "/Resources/AIChatHistory.json";
-            System.IO.File.WriteAllText(path, wrapper.ToString());
-            Debug.Log("AI history saved to: " + path);
+
+            try
+            {
+                File.WriteAllText(AIHistoryFilePath, wrapper.ToString());
+                Debug.Log("AI history saved to: " + AIHistoryFilePath);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Failed to save AI history to file: " + ex.Message);
+            }
         }
         else
         {
@@ -115,8 +150,15 @@ public class NetworkListener : MonoBehaviour
 
     private void SaveDiagramToFile(string content)
     {
-        string path = Application.dataPath + "/Resources/diagram.json";
-        System.IO.File.WriteAllText(path, content);
+        try
+        {
+            File.WriteAllText(DiagramFilePath, content);
+            Debug.Log("Diagram saved to: " + DiagramFilePath);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to save diagram to file: " + ex.Message);
+        }
     }
 
     public void SendJumpToClass(string file, int line)
