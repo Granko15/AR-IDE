@@ -169,13 +169,19 @@ public class CodeboxManager : MonoBehaviour
             Vector3 cameraPosition = Camera.main.transform.position;
             Vector3 forwardDirection = Camera.main.transform.forward;
 
-            Vector3 newPosition = cameraPosition + forwardDirection * spawnDistance;
+            // Vypočítame pozíciu na osi X na základe smeru pohľadu kamery a konštantnej vzdialenosti
+            Vector3 targetPosition = cameraPosition + forwardDirection * spawnDistance;
+            float newXPos = targetPosition.x;
 
-            Vector3 lookDirection = new Vector3(forwardDirection.x, 0, forwardDirection.z);
-            Quaternion horizontalRotation = Quaternion.LookRotation(lookDirection) * Quaternion.Euler(0, 90f, 0);
+            // Nastavíme pevnú hodnotu pre os Y a Z
+            Vector3 newPosition = new Vector3(newXPos, 0.5f, -2f);
+
+            // Vypočítame rotáciu, aby sa Codebox pozeral na hráča (voliteľné, ale môže byť užitočné)
+            Quaternion lookRotation = Quaternion.LookRotation(cameraPosition - newPosition);
+            lookRotation.eulerAngles = new Vector3(0, lookRotation.eulerAngles.y + 180f, 0); // Otočíme o 180 stupňov, aby text smeroval k hráčovi
 
             codebox.transform.position = newPosition;
-            codebox.transform.rotation = horizontalRotation;
+            codebox.transform.rotation = lookRotation;
 
             codebox.SetActive(true);
 

@@ -4,12 +4,15 @@ using UnityEngine;
 public class RelationshipManager : MonoBehaviour
 {
     private Dictionary<string, List<LineRenderer>> relationshipLines = new Dictionary<string, List<LineRenderer>>();
-
-    public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
+    private enum RelationshipType { None, Composition, Usage, Inheritance, All }
+    private RelationshipType currentRelationshipType = RelationshipType.None;    public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
     {
-        // Remove all existing relationships before creating new ones
         ClearAllRelationships();
+        CreateAllRelationships(jsonData, codeboxInstances);
+    }
 
+    private void CreateAllRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
+    {
         foreach (var classEntry in jsonData.classes)
         {
             string className = classEntry.Key;
@@ -47,6 +50,16 @@ public class RelationshipManager : MonoBehaviour
         }
     }
 
+    public void CycleRelationshipDisplay()
+    {
+        currentRelationshipType = (RelationshipType)(((int)currentRelationshipType + 1) % 5);
+
+        foreach (var className in relationshipLines.Keys)
+        {
+            DisplayRelationships(className);
+        }
+    }
+
     public void DisplayRelationships(string className)
     {
         if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
@@ -56,11 +69,31 @@ public class RelationshipManager : MonoBehaviour
                 RelationshipLine relationshipLine = line.GetComponent<RelationshipLine>();
                 if (relationshipLine != null && relationshipLine.source.activeSelf && relationshipLine.target.activeSelf)
                 {
-                    line.gameObject.SetActive(true);
+                    bool shouldDisplay = false;
+                    switch (currentRelationshipType)
+                    {
+                        case RelationshipType.None:
+                            shouldDisplay = false;
+                            break;
+                        case RelationshipType.Composition:
+                            shouldDisplay = line.name.Contains("composition");
+                            break;
+                        case RelationshipType.Usage:
+                            shouldDisplay = line.name.Contains("usage");
+                            break;
+                        case RelationshipType.Inheritance:
+                            shouldDisplay = line.name.Contains("inheritance");
+                            break;
+                        case RelationshipType.All:
+                            shouldDisplay = true;
+                            break;
+                    }
+                    line.gameObject.SetActive(shouldDisplay);
                 }
             }
         }
     }
+
 
     public void HideRelationships(string className)
     {
@@ -122,10 +155,13 @@ public class RelationshipManager : MonoBehaviour
                 if (relationshipLine != null)
                 {
                     relationshipLine.UpdatePositions();
-                    // Update visibility based on the active status of source and target
                     line.gameObject.SetActive(relationshipLine.source.activeSelf && relationshipLine.target.activeSelf);
                 }
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        { 
+            CycleRelationshipDisplay();
         }
     }
 

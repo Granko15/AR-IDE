@@ -11,8 +11,8 @@
                 }
             ],
             "attributes": [
-                "title",
-                "duration"
+                "duration",
+                "title"
             ],
             "base_classes": [],
             "composition": [],
@@ -34,9 +34,9 @@
             ],
             "attributes": [
                 "bookings",
-                "booking",
                 "capacity",
-                "hall_number"
+                "hall_number",
+                "booking"
             ],
             "base_classes": [],
             "composition": [
@@ -57,8 +57,8 @@
                 }
             ],
             "attributes": [
-                "hall",
                 "movie",
+                "hall",
                 "customer"
             ],
             "base_classes": [],
@@ -104,8 +104,8 @@
             "attributes": [
                 "borrowed",
                 "title",
-                "author",
-                "isbn"
+                "isbn",
+                "author"
             ],
             "base_classes": [],
             "composition": [],
@@ -144,8 +144,8 @@
             "base_classes": [],
             "composition": [],
             "uses": [
-                "Book",
-                "Member"
+                "Member",
+                "Book"
             ]
         },
         "Member": {
@@ -167,9 +167,9 @@
                 }
             ],
             "attributes": [
+                "member_id",
                 "borrowed_books",
-                "name",
-                "member_id"
+                "name"
             ],
             "base_classes": [],
             "composition": [],
@@ -298,14 +298,14 @@
                 }
             ],
             "attributes": [
-                "dog",
-                "name"
+                "name",
+                "dog"
             ],
             "base_classes": [],
             "composition": [],
             "uses": []
         },
-        "Alpaca": {
+        "ALPACA": {
             "file_path": "c:\\Users\\grank\\Downloads\\wetransfer_test_project_2024-12-03_1619\\test_project\\zoo\\animals\\alpaca.py",
             "package": "zoo.animals",
             "line_number": 3,

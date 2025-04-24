@@ -27,7 +27,7 @@ public class CodeBoxController : MonoBehaviour
         objectRenderer = CodeBoxBody.GetComponent<Renderer>();
         if (objectRenderer == null)
         {
-            Debug.LogError("Renderer is null on " + CodeBoxBody.name);
+            Debug.LogWarning("Renderer is null on " + CodeBoxBody.name);
         }
     }
 
