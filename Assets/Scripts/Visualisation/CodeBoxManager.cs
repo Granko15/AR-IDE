@@ -185,10 +185,10 @@ public class CodeboxManager : MonoBehaviour
 
             codebox.SetActive(true);
 
-            if (relationshipManager != null)
+            /*if (relationshipManager != null)
             {
                 relationshipManager.DisplayRelationships(className);
-            }
+            }*/
         }
         else
         {
@@ -225,7 +225,6 @@ public class CodeboxManager : MonoBehaviour
         if (projectData != null)
         {
             InstantiateCodeboxes(projectData);
-                        // After re-instantiating, refresh the hand menu
             if (handMenuGenerator != null)
             {
                 handMenuGenerator.RefreshHandMenu(codeboxInstances);

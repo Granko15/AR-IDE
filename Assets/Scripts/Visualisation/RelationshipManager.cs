@@ -1,14 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RelationshipManager : MonoBehaviour
 {
     private Dictionary<string, List<LineRenderer>> relationshipLines = new Dictionary<string, List<LineRenderer>>();
-    private enum RelationshipType { None, Composition, Usage, Inheritance, All }
-    private RelationshipType currentRelationshipType = RelationshipType.None;    public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
+    private enum RelationshipType { None, Composition, Usage, Inheritance }
+    private RelationshipType currentRelationshipType = RelationshipType.None;
+    public TMPro.TextMeshProUGUI relationshipLabel;
+
+    public void SetupRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
     {
         ClearAllRelationships();
         CreateAllRelationships(jsonData, codeboxInstances);
+        UpdateAllRelationshipVisibility(); // Nastavíme počiatočnú viditeľnosť
     }
 
     private void CreateAllRelationships(JsonData jsonData, Dictionary<string, GameObject> codeboxInstances)
@@ -53,47 +58,72 @@ public class RelationshipManager : MonoBehaviour
     public void CycleRelationshipDisplay()
     {
         currentRelationshipType = (RelationshipType)(((int)currentRelationshipType + 1) % 5);
+        Debug.Log("Current Relationship Type: " + currentRelationshipType);
+        UpdateAllRelationshipVisibility();
 
-        foreach (var className in relationshipLines.Keys)
+        if (relationshipLabel != null)
         {
-            DisplayRelationships(className);
+            switch (currentRelationshipType)
+            {
+                case RelationshipType.None:
+                    relationshipLabel.text = "Display Relationships";
+                    break;
+                case RelationshipType.Composition:
+                    relationshipLabel.text = "Composition";
+                    break;
+                case RelationshipType.Usage:
+                    relationshipLabel.text = "Usage";
+                    break;
+                case RelationshipType.Inheritance:
+                    relationshipLabel.text = "Inheritance";
+                    break;
+            }
+        }
+        else
+        {
+            Debug.LogError("TextMeshPro UI Label 'relationshipLabel' nie je priradený v RelationshipManageri!");
         }
     }
 
-    public void DisplayRelationships(string className)
+    private void UpdateAllRelationshipVisibility()
     {
-        if (relationshipLines.TryGetValue(className, out List<LineRenderer> lines))
+        foreach (var lineList in relationshipLines.Values)
         {
-            foreach (var line in lines)
+            foreach (var line in lineList)
             {
-                RelationshipLine relationshipLine = line.GetComponent<RelationshipLine>();
-                if (relationshipLine != null && relationshipLine.source.activeSelf && relationshipLine.target.activeSelf)
-                {
-                    bool shouldDisplay = false;
-                    switch (currentRelationshipType)
-                    {
-                        case RelationshipType.None:
-                            shouldDisplay = false;
-                            break;
-                        case RelationshipType.Composition:
-                            shouldDisplay = line.name.Contains("composition");
-                            break;
-                        case RelationshipType.Usage:
-                            shouldDisplay = line.name.Contains("usage");
-                            break;
-                        case RelationshipType.Inheritance:
-                            shouldDisplay = line.name.Contains("inheritance");
-                            break;
-                        case RelationshipType.All:
-                            shouldDisplay = true;
-                            break;
-                    }
-                    line.gameObject.SetActive(shouldDisplay);
-                }
+                UpdateLineVisibility(line);
             }
         }
     }
 
+    private void UpdateLineVisibility(LineRenderer line)
+    {
+        RelationshipLine relationshipLine = line.GetComponent<RelationshipLine>();
+        if (relationshipLine != null && relationshipLine.source.activeSelf && relationshipLine.target.activeSelf)
+        {
+            bool shouldDisplay = false;
+            switch (currentRelationshipType)
+            {
+                case RelationshipType.None:
+                    shouldDisplay = false;
+                    break;
+                case RelationshipType.Composition:
+                    shouldDisplay = line.name.Contains("composition");
+                    break;
+                case RelationshipType.Usage:
+                    shouldDisplay = line.name.Contains("usage");
+                    break;
+                case RelationshipType.Inheritance:
+                    shouldDisplay = line.name.Contains("inheritance");
+                    break;
+            }
+            line.gameObject.SetActive(shouldDisplay);
+        }
+        else
+        {
+            line.gameObject.SetActive(false); 
+        }
+    }
 
     public void HideRelationships(string className)
     {
@@ -155,13 +185,8 @@ public class RelationshipManager : MonoBehaviour
                 if (relationshipLine != null)
                 {
                     relationshipLine.UpdatePositions();
-                    line.gameObject.SetActive(relationshipLine.source.activeSelf && relationshipLine.target.activeSelf);
                 }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        { 
-            CycleRelationshipDisplay();
         }
     }
 

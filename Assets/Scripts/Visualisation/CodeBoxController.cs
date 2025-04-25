@@ -42,11 +42,10 @@ public class CodeBoxController : MonoBehaviour
         HighlightCodebox(isHighlighted);
 
         currentSelectedController = isHighlighted ? this : null;
-
-        // Notify CodeboxManager of the change
+        
         if (isHighlighted)
         {
-            CodeboxManager.Instance?.SetHighlightedCodebox(this.gameObject); // Assuming CodeboxManager is a singleton
+            CodeboxManager.Instance?.SetHighlightedCodebox(this.gameObject);
         }
         else
         {
