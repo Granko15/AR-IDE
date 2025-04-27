@@ -7,7 +7,6 @@ using UnityEditor;
 public class CodeboxManager : MonoBehaviour
 {
     public static CodeboxManager Instance { get; private set; } // Singleton instance
-
     public GameObject codeboxPrefab;
     public JsonParser jsonParser;
     public RelationshipManager relationshipManager;
@@ -15,7 +14,6 @@ public class CodeboxManager : MonoBehaviour
     private float currentXPos = -12f;
     private float currentYPos = 2.5f;
     private float currentZPos = 50f;
-
     public float spawnDistance = 0.5f;
 
     private Dictionary<string, GameObject> codeboxInstances = new Dictionary<string, GameObject>();
